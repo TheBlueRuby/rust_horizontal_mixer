@@ -2,6 +2,9 @@
 name = "horizontal_mixer"
 version = "0.1.0"
 edition = "2021"
+description = "horizontal mixer in Rust using Kira for audio playback"
+license = "MIT"
+authors = ["TheBlueRuby"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
