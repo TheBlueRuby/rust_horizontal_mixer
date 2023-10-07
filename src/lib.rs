@@ -16,7 +16,7 @@ pub struct HorizontalMixer {
     vol_tween: TweenerHandle,
     pub track_1: StaticSoundData,
     pub track_2: StaticSoundData,
-    current_track: i8,
+    pub current_track: i8,
     fade_time: Duration
 }
 
