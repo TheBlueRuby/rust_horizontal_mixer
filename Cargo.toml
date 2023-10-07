@@ -1,6 +1,6 @@
 [package]
 name = "horizontal_mixer"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "horizontal mixer in Rust using Kira for audio playback"
 license = "MIT"
