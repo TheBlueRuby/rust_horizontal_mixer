@@ -14,10 +14,11 @@ pub struct HorizontalMixer {
     track_1: StaticSoundData,
     track_2: StaticSoundData,
     current_track: i8,
+    fade_time: Duration
 }
 
 impl HorizontalMixer {
-    pub fn new(path_1: &str, path_2: &str, loop_mus: bool) -> Self {
+    pub fn new(path_1: &str, path_2: &str, fade_time: Duration, loop_mus: bool) -> Self {
         let mut manager =
             AudioManager::<DefaultBackend>::new(AudioManagerSettings::default()).unwrap();
 
@@ -62,6 +63,7 @@ impl HorizontalMixer {
                 track_1,
                 track_2,
                 current_track: 0,
+                fade_time,
             }
         }
 
@@ -97,6 +99,7 @@ impl HorizontalMixer {
             track_1,
             track_2,
             current_track: 0,
+            fade_time,
         }
     }
 
@@ -112,7 +115,7 @@ impl HorizontalMixer {
         self.vol_tween.set(
             self.current_track as f64,
             Tween {
-                duration: Duration::from_secs_f32(0.25),
+                duration: self.fade_time,
                 ..Default::default()
             },
         )?;
@@ -139,11 +142,12 @@ mod tests {
         let mut horizontal_mixer = HorizontalMixer::new(
             "test_resources/track_1.mp3",
             "test_resources/track_2.mp3",
+            Duration::from_secs_f32(0.15),
             false,
         );
 
         horizontal_mixer.play();
-        for _ in 0..2 {
+        for _ in 0..4 {
             thread::sleep(time::Duration::from_secs(1));
             horizontal_mixer.toggle_track();
         }
@@ -154,6 +158,7 @@ mod tests {
         let mut horizontal_mixer = HorizontalMixer::new(
             "test_resources/track_1.mp3",
             "test_resources/track_2.mp3",
+            Duration::from_secs_f32(0.15),
             true,
         );
 
