@@ -135,7 +135,7 @@ impl HorizontalMixer {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{thread, time};
+    use std::thread;
 
     #[test]
     fn no_loop() {
@@ -148,7 +148,7 @@ mod tests {
 
         horizontal_mixer.play();
         for _ in 0..4 {
-            thread::sleep(time::Duration::from_secs(1));
+            thread::sleep(Duration::from_secs(1));
             horizontal_mixer.toggle_track();
         }
     }
@@ -164,7 +164,7 @@ mod tests {
 
         horizontal_mixer.play();
         for _ in 0..16 {
-            thread::sleep(time::Duration::from_secs(1));
+            thread::sleep(Duration::from_secs(1));
             horizontal_mixer.toggle_track();
         }
     }
