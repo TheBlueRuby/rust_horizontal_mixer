@@ -9,6 +9,7 @@ repository = "https://github.com/TheBlueRuby/rust_horizontal_mixer"
 keywords = ["gamedev", "audio", "music"]
 categories = ["game-development", "multimedia::audio"]
 readme = "./readme.md"
+exclude = ["test_resources/*", "tests/*", "target/*"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
