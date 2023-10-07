@@ -25,6 +25,46 @@ impl HorizontalMixer {
             .add_modulator(TweenerBuilder { initial_value: 0.0 })
             .unwrap();
 
+        if loop_mus {
+            let track_1 = StaticSoundData::from_file(
+                path_1,
+                StaticSoundSettings::new()
+                    .volume(Value::from_modulator(
+                        &vol_tween,
+                        ModulatorMapping {
+                            input_range: (0.0, 1.0),
+                            output_range: (Volume::Amplitude(1.0), Volume::Amplitude(0.0)),
+                            ..Default::default()
+                        },
+                    ))
+                    .loop_region(0.0..),
+            )
+            .unwrap();
+
+            let track_2 = StaticSoundData::from_file(
+                path_2,
+                StaticSoundSettings::new()
+                    .volume(Value::from_modulator(
+                        &vol_tween,
+                        ModulatorMapping {
+                            input_range: (0.0, 1.0),
+                            output_range: (Volume::Amplitude(0.0), Volume::Amplitude(1.0)),
+                            ..Default::default()
+                        },
+                    ))
+                    .loop_region(0.0..),
+            )
+            .unwrap();
+
+            return HorizontalMixer {
+                manager,
+                vol_tween,
+                track_1,
+                track_2,
+                current_track: 0,
+            }
+        }
+
         let track_1 = StaticSoundData::from_file(
             path_1,
             StaticSoundSettings::new().volume(Value::from_modulator(
@@ -96,10 +136,29 @@ mod tests {
 
     #[test]
     fn no_loop() {
-        let mut horizontal_mixer = HorizontalMixer::new("test_resources/track_1.mp3", "test_resources/track_2.mp3", false);
+        let mut horizontal_mixer = HorizontalMixer::new(
+            "test_resources/track_1.mp3",
+            "test_resources/track_2.mp3",
+            false,
+        );
 
         horizontal_mixer.play();
         for _ in 0..2 {
+            thread::sleep(time::Duration::from_secs(1));
+            horizontal_mixer.toggle_track();
+        }
+    }
+
+    #[test]
+    fn looping() {
+        let mut horizontal_mixer = HorizontalMixer::new(
+            "test_resources/track_1.mp3",
+            "test_resources/track_2.mp3",
+            true,
+        );
+
+        horizontal_mixer.play();
+        for _ in 0..16 {
             thread::sleep(time::Duration::from_secs(1));
             horizontal_mixer.toggle_track();
         }
