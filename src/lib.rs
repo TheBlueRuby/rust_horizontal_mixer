@@ -1,4 +1,7 @@
-use std::{error::Error, time::Duration};
+#[doc = include_str!("../README.md")]
+
+
+use std::time::Duration;
 
 use kira::{
     manager::{backend::DefaultBackend, AudioManager, AudioManagerSettings},
@@ -11,8 +14,8 @@ use kira::{
 pub struct HorizontalMixer {
     manager: AudioManager<DefaultBackend>,
     vol_tween: TweenerHandle,
-    track_1: StaticSoundData,
-    track_2: StaticSoundData,
+    pub track_1: StaticSoundData,
+    pub track_2: StaticSoundData,
     current_track: i8,
     fade_time: Duration
 }
@@ -103,7 +106,7 @@ impl HorizontalMixer {
         }
     }
 
-    pub fn switch_track(&mut self, which_track: i8) -> Result<(), Box<dyn Error>> {
+    pub fn switch_track(&mut self, which_track: i8) {
         if which_track < 2 {
             self.current_track = which_track;
         } else {
@@ -118,12 +121,11 @@ impl HorizontalMixer {
                 duration: self.fade_time,
                 ..Default::default()
             },
-        )?;
-        Ok(())
+        ).unwrap();
     }
 
     pub fn toggle_track(&mut self) {
-        self.switch_track(self.current_track + 1).unwrap();
+        self.switch_track(self.current_track + 1);
     }
 
     pub fn play(&mut self) {
