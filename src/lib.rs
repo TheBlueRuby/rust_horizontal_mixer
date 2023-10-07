@@ -113,8 +113,6 @@ impl HorizontalMixer {
             self.current_track = 0;
         }
 
-        println!("{}", self.current_track);
-
         self.vol_tween.set(
             self.current_track as f64,
             Tween {
